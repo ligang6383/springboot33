@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CDS 示例</title>
+</head>
+<body>
+<h1>获取数据</h1>
+<button onclick="getData()">获取</button>
+<br>
+<button onclick="getAsyncData()">刷新配置</button>
+
+<br>
+<div id="result"></div>
+
+<script>
+    function getData() {
+        fetch('/data')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = '获取数据失败: ';
+            });
+    }
+
+    function getAsyncData() {
+        const startTime = performance.now(); // Record start time
+        fetch('/asyncdata')
+            .then(response => response.text())
+            .then(data => {
+                const endTime = performance.now(); // Record end time
+                const duration = endTime - startTime; // Calculate duration
+                document.getElementById('result').innerHTML = data + '<br>请求耗时: ' + duration + 'ms';
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = '获取数据失败: ';
+            });
+    }
+</script>
+</body>
+</html>
